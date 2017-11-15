@@ -1,3 +1,4 @@
+
 // Import and require various API keys from keys.js
 var myKeys = require('./keys.js');
 // Import various packages used for assignment:
@@ -18,34 +19,45 @@ var userInput = process.argv;
 // Stores user argument after command
 var userArg = ''
 // Concats user input if it is multiple lines
+// Check length of thing
+console.log(userInput.length);
 function concatName(){
-    if (userInput.length < 3){
+    if (userInput.length < 4){
         console.log("Your input did not include the necessary arguments!");
-        return;
+        return false;
     }
-    else if (userInput.length == 3){
+    else if (userInput.length == 4){
         userArg = userInput[3];
-        return;
+        return true;
     }
     else {
         userArg += userInput[3];
         for (var i = 4; i < userInput.length; i++){
             userArg += "+" + userInput[i];
         };
+        return true;
     };
 };
-concatName();
-console.log(userArg);
 // Evaluate user input and act based on user command, user input SHOULD be index 2 of input array, with 0 being node and 1 being path.
 switch (userInput[2]){
     case "my-tweets":
         getTweets();
         break;
     case "spotify-this-song":
-        getSpotify();
+        if (concatName() == true){
+            getSpotify();
+        }
+        else {
+            console.log("Uh, you should see something else too!");
+        };
         break;
     case "movie-this":
-        getMovie()
+        if (concatName() == true){
+            getMovie()
+        }
+        else {
+            console.log("Uh, you should see something else too!");
+        };
         break;
     case "do-what-it-says":
         readUserFile();
