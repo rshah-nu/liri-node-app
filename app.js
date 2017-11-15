@@ -19,8 +19,6 @@ var userInput = process.argv;
 // Stores user argument after command
 var userArg = ''
 // Concats user input if it is multiple lines
-// Check length of thing
-console.log(userInput.length);
 function concatName(){
     if (userInput.length < 4){
         console.log("Your input did not include the necessary arguments!");
@@ -31,10 +29,8 @@ function concatName(){
         return true;
     }
     else {
-        userArg += userInput[3];
-        for (var i = 4; i < userInput.length; i++){
-            userArg += "+" + userInput[i];
-        };
+        userArg = userInput.splice(3).join("+");
+        console.log(userArg);
         return true;
     };
 };
