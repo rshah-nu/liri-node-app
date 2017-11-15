@@ -15,6 +15,27 @@ var spotify = require('node-spotify-api');
 var spotifyClient = new spotify(myKeys.spotifyKeys);
 // Get user input and store to variable for later parsing
 var userInput = process.argv;
+// Stores user argument after command
+var userArg = ''
+// Concats user input if it is multiple lines
+function concatName(){
+    if (userInput.length < 3){
+        console.log("Your input did not include the necessary arguments!");
+        return;
+    }
+    else if (userInput.length == 3){
+        userArg = userInput[3];
+        return;
+    }
+    else {
+        userArg += userInput[3];
+        for (var i = 4; i < userInput.length; i++){
+            userArg += "+" + userInput[i];
+        };
+    };
+};
+concatName();
+console.log(userArg);
 // Evaluate user input and act based on user command, user input SHOULD be index 2 of input array, with 0 being node and 1 being path.
 switch (userInput[2]){
     case "my-tweets":
@@ -42,7 +63,7 @@ function getTweets(){
 };
 
 function getSpotify(){
-    spotifyClient.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+    spotifyClient.search({ type: 'track', query: userArg }, function(err, data) {
         if (err) {
           return console.log('Error occurred: ' + err);
         }
@@ -51,7 +72,7 @@ function getSpotify(){
 };
 
 function getMovie(){
-    request('http://www.omdbapi.com/?t=Halloween&apikey=trilogy', function (error, response, body) {
+    request('http://www.omdbapi.com/?t=' + userArg + '&apikey=trilogy', function (error, response, body) {
         // console.log('error:', error); // Print the error if one occurred
         // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
         console.log('body:', body); // Print the HTML for the Google homepage.
@@ -67,5 +88,5 @@ function readUserFile(){
             console.log(data);
         };
     });
-}
+};
 
