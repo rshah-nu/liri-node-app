@@ -40,19 +40,13 @@ switch (userInput[2]){
         getTweets();
         break;
     case "spotify-this-song":
-        if (concatName() == true){
+        if (concatName()){
             getSpotify();
-        }
-        else {
-            console.log("Uh, you should see something else too!");
         };
         break;
     case "movie-this":
-        if (concatName() == true){
+        if (concatName()){
             getMovie()
-        }
-        else {
-            console.log("Uh, you should see something else too!");
         };
         break;
     case "do-what-it-says":
@@ -61,7 +55,7 @@ switch (userInput[2]){
     default:
         console.log("Hi, sorry, you need to enter a valid command.");
 };
-
+// Function which retrieves last 20 tweets
 function getTweets(){
     client.get('statuses/user_timeline', {screen_name: 'rshah_bc'}, function(error, tweets, response){
         // console.log(error);
@@ -69,16 +63,16 @@ function getTweets(){
         // console.log(response);
     }); 
 };
-
+// Function which calls Spotify API
 function getSpotify(){
     spotifyClient.search({ type: 'track', query: userArg }, function(err, data) {
         if (err) {
           return console.log('Error occurred: ' + err);
         }
-      console.log(data); 
+      console.log(JSON.stringify(data)); 
       });
 };
-
+// Function which calls OMDB database
 function getMovie(){
     request('http://www.omdbapi.com/?t=' + userArg + '&apikey=trilogy', function (error, response, body) {
         // console.log('error:', error); // Print the error if one occurred
@@ -86,7 +80,7 @@ function getMovie(){
         console.log('body:', body); // Print the HTML for the Google homepage.
       });
 };
-
+// Function which gets user input from random file and passes it onto switch statement for parsing
 function readUserFile(){
     fs.readFile('./random.txt', 'utf8', function(err, data){
         if (err){
