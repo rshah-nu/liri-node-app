@@ -69,7 +69,7 @@ function getSpotify(){
         if (err) {
           return console.log('Error occurred: ' + err);
         }
-      console.log(JSON.stringify(data)); 
+      console.log(JSON.stringify(data, null, 2)); 
       });
 };
 // Function which calls OMDB database
