@@ -64,10 +64,12 @@ function getTweets(){
         // console.log(response);
     }); 
 };
-
+// Prints last 20 tweets to console.
 function printTweets(tweets){
-    for (var i = 0; i < tweets.length; i++){
-        console.log("Text: " + tweets[i].text + " || Created: " + tweets[i].created_at);
+    while (i < 19){
+        for (var i = 0; i < tweets.length; i++){
+            console.log("Text: " + tweets[i].text + " || Created: " + tweets[i].created_at);
+        };
     };
 };
 // Function which calls Spotify API
@@ -77,14 +79,25 @@ function getSpotify(){
           return console.log('Error occurred: ' + err);
         }
       console.log(JSON.stringify(data, null, 2)); 
+      for (var i = 0; i < data.tracks.items.length; i++){
+          console.log('Song Name: ' + data.tracks.items[i].name);
+          console.log('Artist: ' + data.tracks.items[i].artists.name);
+          console.log("Spotify URL: " + data.tracks.items[i].preview_url);
+          console.log("Album: " + data.tracks.items[i].album.name);
+          console.log("===========================================");
+      };
       });
 };
 // Function which calls OMDB database
 function getMovie(){
     request('http://www.omdbapi.com/?t=' + userArg + '&apikey=trilogy', function (error, response, body) {
-        // console.log('error:', error); // Print the error if one occurred
-        // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        console.log('body:', body); // Print the HTML for the Google homepage.
+        var resp = JSON.parse(body);
+        console.log("Title: " + resp.Title);
+        console.log("Year: " + resp.Year);
+        console.log("IMDB Rating: " + resp.imdbRating);
+        console.log("Language: " + resp.Language);
+        console.log("Plot: " + resp.Plot);
+        console.log("Actors: " + resp.Actors);
       });
 };
 // Function which gets user input from random file and passes it onto switch statement for parsing
@@ -94,7 +107,8 @@ function readUserFile(){
             console.log(err);
         }
         else {
-            console.log(data);
+            userArg = data.split(',')[1];
+            getSpotify(userArg);
         };
     });
 };
