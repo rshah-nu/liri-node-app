@@ -59,9 +59,16 @@ switch (userInput[2]){
 function getTweets(){
     client.get('statuses/user_timeline', {screen_name: 'rshah_bc'}, function(error, tweets, response){
         // console.log(error);
-        console.log(tweets);
+        // console.log(JSON.stringify(tweets, null, 2));
+        printTweets(tweets);
         // console.log(response);
     }); 
+};
+
+function printTweets(tweets){
+    for (var i = 0; i < tweets.length; i++){
+        console.log("Text: " + tweets[i].text + " || Created: " + tweets[i].created_at);
+    };
 };
 // Function which calls Spotify API
 function getSpotify(){
@@ -69,7 +76,7 @@ function getSpotify(){
         if (err) {
           return console.log('Error occurred: ' + err);
         }
-      console.log(JSON.stringify(data)); 
+      console.log(JSON.stringify(data, null, 2)); 
       });
 };
 // Function which calls OMDB database
